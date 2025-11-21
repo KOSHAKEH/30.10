@@ -1,22 +1,15 @@
--- =============================================
--- Создание базы данных Academy (полный скрипт)
--- =============================================
-
--- 1. Создаём базу данных
 CREATE DATABASE Academy;
 GO
 
 USE Academy;
 GO
 
--- 2. Таблица Факультеты
 CREATE TABLE Faculties (
     Id   INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(100) NOT NULL UNIQUE 
          CHECK (LTRIM(RTRIM(Name)) <> '')
 );
 
--- 3. Таблица Кафедры
 CREATE TABLE Departments (
     Id          INT IDENTITY(1,1) PRIMARY KEY,
     Name        NVARCHAR(100) NOT NULL UNIQUE 
@@ -26,7 +19,6 @@ CREATE TABLE Departments (
     FacultyId   INT NOT NULL
 );
 
--- 4. Таблица Группы
 CREATE TABLE Groups (
     Id      INT IDENTITY(1,1) PRIMARY KEY,
     Name    NVARCHAR(10) NOT NULL UNIQUE 
@@ -36,7 +28,6 @@ CREATE TABLE Groups (
     FacultyId INT NOT NULL
 );
 
--- 5. Таблица Преподаватели
 CREATE TABLE Teachers (
     Id              INT IDENTITY(1,1) PRIMARY KEY,
     Name            NVARCHAR(MAX) NOT NULL 
@@ -46,12 +37,8 @@ CREATE TABLE Teachers (
     Salary          MONEY NOT NULL CHECK (Salary > 0),
     Premium         MONEY NOT NULL DEFAULT 0 CHECK (Premium >= 0),
     EmploymentDate  DATE NOT NULL CHECK (EmploymentDate >= '1990-01-01'),
-    DepartmentId    INT NULL                 -- может быть NULL, если преподаватель пока не закреплён
+    DepartmentId    INT NULL
 );
-
--- =============================================
--- Внешние ключи
--- =============================================
 
 ALTER TABLE Departments
 ADD CONSTRAINT FK_Departments_Faculties 
@@ -65,4 +52,4 @@ ALTER TABLE Teachers
 ADD CONSTRAINT FK_Teachers_Departments 
     FOREIGN KEY (DepartmentId) REFERENCES Departments(Id);
 
-PRINT 'База данных Academy успешно создана!';
+PRINT 'РўР°Р±Р»РёС†Р° СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅР°';
